@@ -5,12 +5,11 @@
 
 from evdev import InputDevice, categorize, ecodes
 from ev3dev2.motor import LargeMotor, OUTPUT_A, OUTPUT_B, SpeedPercent, MoveSteering
-from time import sleep
 
 XAC_DEVICE = '/dev/input/event2'
 
-TIME_TURN = 0.1
-TIME_WALK = 0.2
+TIME_TURN = 0.15
+TIME_WALK = 0.30
 SPEED_PCT = 75
 TURN_LEFT = -100
 TURN_RIGHT = 100
@@ -53,7 +52,6 @@ for event in dev.read_loop():
              if event.value == PRESS or event.value == HOLD:
                  print('pressed')
                  steering_drive.on_for_seconds(TURN_LEFT,SpeedPercent(SPEED_PCT),TIME_TURN)
-                 sleep(TIME_TURN)
                  while dev.read_one() != None:
                      pass
          elif event.code == BUTTON_B_2:
@@ -69,7 +67,6 @@ for event in dev.read_loop():
              if event.value == PRESS or event.value == HOLD:
                  print('pressed')
                  steering_drive.on_for_seconds(FORWARD,SpeedPercent(SPEED_PCT),TIME_WALK)
-                 sleep(TIME_WALK)
                  while dev.read_one() != None:
                      pass
          else:
