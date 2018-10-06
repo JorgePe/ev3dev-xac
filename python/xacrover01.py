@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
 
+# the script assumes two large motors at ports A and B
+# and XAC already paired and associated to event '/dev/input/event2'
+
 from evdev import InputDevice, categorize, ecodes
 from ev3dev2.motor import LargeMotor, OUTPUT_A, OUTPUT_B, SpeedPercent, MoveSteering
 from time import sleep
+
+XAC_DEVICE = '/dev/input/event2'
 
 TIME_TURN = 0.1
 TIME_WALK = 0.2
@@ -15,9 +20,21 @@ RELEASE = 0
 PRESS = 1
 HOLD = 2
 
+# I get 2 event codes for Button A, B, RB
+# I will use just the second code, ignoring the first
+
+BUTTON_A_1 = 304 # BTN_SOUTH
+BUTTON_B_1 = 305 # BTN_EAST
+BUTTON_RB_1 = 311 # BTN_TR
+
+BUTTON_A_2 = 319 # ?
+BUTTON_B_2 = 704 # ?
+BUTTON_RB_2 = 710 # ?
+
+
 steering_drive = MoveSteering(OUTPUT_A, OUTPUT_B)
 
-dev = InputDevice('/dev/input/event2')
+dev = InputDevice(XAC_DEVICE)
 print(dev)
 
 #print('**********************')
@@ -29,11 +46,9 @@ print('Ready...')
 
 for event in dev.read_loop():
     if event.type == ecodes.EV_KEY:
-         if event.code == 304 or event.code == 305 or event.code == 311:
-             # not very good here, using just the last code of a dual code event
-             # (304 + 319) (305+704) (311+710)
+         if event.code == BUTTON_A_1 or event.code == BUTTON_B_1 or event.code == BUTTON_RB_1:
              continue
-         elif event.code == 319:
+         elif event.code == BUTTON_A_2:
              print('A ', end='')
              if event.value == PRESS or event.value == HOLD:
                  print('pressed')
@@ -41,7 +56,7 @@ for event in dev.read_loop():
                  sleep(TIME_TURN)
                  while dev.read_one() != None:
                      pass
-         elif event.code == 704:
+         elif event.code == BUTTON_B_2:
              print('B ', end='')
              if event.value == PRESS or event.value == HOLD:
                  print('pressed')
@@ -49,7 +64,7 @@ for event in dev.read_loop():
                  sleep(TIME_TURN)
                  while dev.read_one() != None:
                      pass
-         elif event.code == 710:
+         elif event.code == BUTTON_RB_2:
              print('RB ', end='')
              if event.value == PRESS or event.value == HOLD:
                  print('pressed')
