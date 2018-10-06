@@ -63,11 +63,11 @@ In my case '/dev/input/event2' is the XAC and we can use it with python-evdev.
 
 I connected a common guitar pedal switch to the 'RB' input of the XAC and wrote a pyhton script [xacrover01.py](https://github.com/JorgePe/ev3dev-xac/blob/master/python/xacrover01.py) that reacts to the large round buttons ('A' and 'B') and 'RB' ('Right Bumper') events:
 
-Demo video for the script
+Demo video for the script:
 
 [![Microsoft Xbox Adaptive Controller and LEGO MINDSTORMS EV3](http://img.youtube.com/vi/e14kfSoBP94/0.jpg)](http://www.youtube.com/watch?v=e14kfSoBP94)
 
-
+Some details of my findings in my blog: https://ofalcao.pt/blog/series/xbox-adaptive-controller
 
 
 
